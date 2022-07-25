@@ -149,7 +149,7 @@ namespace Delauny
             return TriMesh;
 
         }
-//Generate the mesh from the vertices of the triangles
+//invoke triangulate
         public Vector3[,] GenMesh()
         {
             List<Triangle> TriMesh = Triangulate();
