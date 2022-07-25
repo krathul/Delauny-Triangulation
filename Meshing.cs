@@ -4,6 +4,8 @@ using UnityEngine;
 
 namespace GenTriangles
 {
+    //Generate mesh from the vertex of triangles
+    //To reduce the no of vertices in the mesh, same vertex has been used for multiple triangles
     public class Meshing
     {
         public Vector3[,] Seed;
