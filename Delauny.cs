@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+//2D Delauny Triangulation
+
 namespace Delauny
 {
     public class Edge
@@ -33,19 +35,19 @@ namespace Delauny
             verts = new Vector2[] { A, B, C };
             edges = new Edge[] { new Edge(A,B), new Edge(B,C), new Edge(A,C) };
         }
-
+//check if a point lies inside the circumcircle
         public bool Circum(Vector2 x)
         {
-            float ad = verts[0].x * verts[0].x + verts[0].y * verts[0].y;
-            float bd = verts[1].x * verts[1].x + verts[1].y * verts[1].y;
-            float cd = verts[2].x * verts[2].x + verts[2].y * verts[2].y;
+            float a = verts[0].sqrMagnitude;
+            float b = verts[1].sqrMagnitude;
+            float c = verts[2].sqrMagnitude;
             float D = 2 * (verts[0].x * (verts[1].y - verts[2].y) +
                            verts[1].x * (verts[2].y - verts[0].y) +
                            verts[2].x * (verts[0].y - verts[1].y));
 
             Vector2 Cc = new Vector2(
-                                     (ad * (verts[1].y - verts[2].y) + bd * (verts[2].y - verts[0].y) + cd * (verts[0].y - verts[1].y))/D,
-                                     (ad * (verts[2].x - verts[1].x) + bd * (verts[0].x - verts[2].x) + cd * (verts[1].x - verts[0].x))/D
+                                     (a * (verts[1].y - verts[2].y) + b * (verts[2].y - verts[0].y) + c * (verts[0].y - verts[1].y))/D,
+                                     (a * (verts[2].x - verts[1].x) + b * (verts[0].x - verts[2].x) + c * (verts[1].x - verts[0].x))/D
                                     );
 
             float Cr = Vector2.Distance(Cc, verts[0]);
@@ -55,7 +57,7 @@ namespace Delauny
             return false;
         }
     }
-
+//Bowyer Watson algorithm
     public class BowyerWatson
     {
         public List<Vector2> points;
@@ -147,7 +149,7 @@ namespace Delauny
             return TriMesh;
 
         }
-
+//Generate the mesh from the vertices of the triangles
         public Vector3[,] GenMesh()
         {
             List<Triangle> TriMesh = Triangulate();
